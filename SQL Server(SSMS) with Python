@@ -1,0 +1,24 @@
+import pyodbc
+
+connection = pyodbc.connect('Driver={SQL Server};' 'Server=LAPTOP-N0B1VRJO\SQLEXPRESS;'
+                            'Database=yt;' 'Trusted_connection=yes;')
+
+
+def Read(connection):
+    cursor = connection.cursor()
+    print('Read')
+    cursor.execute('SELECT * FROM Names')
+    for row in cursor:
+        print(row)
+    connection.commit()
+
+def Write(connection):
+    cursor = connection.cursor()
+    print('Write')
+    FirstName = input('Enter First Name: ')
+    LastName = input('Enter Last Name: ')
+    cursor.execute('insert into Names(FName, LName) values(?,?);', (FirstName, LastName))
+    Read(connection)
+    connection.commit()
+    
+Write(connection)
